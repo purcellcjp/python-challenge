@@ -3,12 +3,10 @@ import csv
 
 # Get current work directory
 cwd = os.getcwd()
-
 budget_csv = os.path.join(cwd, 'Resources', 'budget_data.csv')
 
 # Lists to store data
 budget_date = []
-#profit_losses = []
 monthly_delta = []
 
 # Intialize variables
@@ -24,8 +22,7 @@ with open(budget_csv) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     
     #read header
-    csv_header = next(csvreader)
-    
+    csv_header = next(csvreader)    
     
     # Store csv file columns into 2 lists
     for row in csvreader:
@@ -41,8 +38,7 @@ with open(budget_csv) as csvfile:
         
         # On first record set previous profit/losses to current profit/losses amount
         if (rec_count == 1):
-            prev_profit_losses_amt = float(cur_profit_losses_amt)
-            
+            prev_profit_losses_amt = float(cur_profit_losses_amt)            
             
         # calculate running sum of monthly profit/losses
         total_profit_losses_amt += cur_profit_losses_amt
@@ -55,8 +51,10 @@ with open(budget_csv) as csvfile:
         # End of loop - Now Assign current profit/losses amount to prev bucket
         prev_profit_losses_amt = cur_profit_losses_amt
     
-    # 
+    # Sum up total monthly deltas
     total_deltas = sum(monthly_delta)
+    
+    # Calculate average change
     avg_profit_losses_amt = round(total_deltas / (rec_count - 1), 2)
     
     # Return min/max profit losses delta

@@ -1,12 +1,12 @@
 import os
 import csv
 
-# Lists to store data elements
+# List/dictionary to store data elements
 election=[]
 results={}
 sorted_candidates={}
 dashes = "---------------------------\n"
-count = 0
+can_count = 0
 
 # Get current work directory
 cwd = os.getcwd()
@@ -53,13 +53,17 @@ with open(election_csv) as csvfile:
     
     # Dynamically build analysis report by looping through sorted_candidates dictionary    
     for name, vote in sorted_candidates.items():
-        count += 1
-        if (count == 1):
+        can_count += 1
+        
+        # First record in sorted candidate is the winner
+        if (can_count == 1):
             winner_name = name
-            
+        
+        # Calculate percentage of vote for candidate    
         pct_calc = round((vote / total_votes) * 100, 3)
         report_analysis += f"{name}: {pct_calc}% ({vote})\n"
     
+    # Complete report analysis
     report_analysis = report_analysis + \
         dashes + \
         f"Winner: {winner_name}\n" + \
